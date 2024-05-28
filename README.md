@@ -1,8 +1,8 @@
-# Nerfies
+# SciGLM
 
 This is the repository that contains source code for the [SciGLM website](https://github.com/zhangdan0602/SciGLM.github.io).
 
-If you find Nerfies useful for your work please cite:
+If you find SciGLM useful for your work please cite:
 ```
 @article{zhang2024sciglm,
   title={Sciglm: Training scientific language models with self-reflective instruction annotation and tuning},
