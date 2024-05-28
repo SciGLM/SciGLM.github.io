@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Training Scientific Language Models with Self-Reflective Instruction Annotation">
+  <meta name="keywords" content="scientific language model, self-reflective instruction, scientific reasoning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SciGLM: Training Scientific Language Models with Self-Reflective Instruction Annotation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link rel="icon" href="./static/images/favicon_logosc/android-chrome-512x512.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://zhangdan0602.github.io/">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <!-- <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div> -->
+      </div>
+
+    </div>
+  </nav>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">SciGLM: Training Scientific Language Models with Self-Reflective
+              Instruction Annotation</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://zhangdan0602.github.io/">Dan Zhang</a><sup style="color:#6fbf73;">1,2</sup>,</span>
+              <span class="author-block">
+                <a target="_blank" href="https://acbull.github.io/">Ziniu Hu</a><sup
+                  style="color:#ed4b82">3</sup>,</span>
+              <span class="author-block">
+                <a>Sining Zhoubian</a><sup style="color:#6fbf73;">1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a target="_blank" href="https://zxdu.xyz/">Zhengxiao Du</a><sup style="color:#6fbf73;">1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a target="_blank" href="https://yangky11.github.io/">Kaiyu Yang</a><sup style="color:#ed4b82">3</sup>,
+              </span>
+              <br>
+              <span class="author-block">
+                <a>Zihan Wang</a><sup style="color:#6fbf73;">1,2</sup>,
+              </span>
+              <span class="author-block">
+                <a target="_blank" href="http://www.yisongyue.com/">Yisong Yue</a><sup style="color:#ed4b82">3</sup>,
+              </span>
+              <span class="author-block">
+                <a target="_blank" href="https://keg.cs.tsinghua.edu.cn/yuxiao/">Yuxiao Dong</a><sup
+                  style="color:#6fbf73;">1</sup>,
+              </span>
+              <span class="author-block">
+                <a target="_blank" href="https://keg.cs.tsinghua.edu.cn/jietang/">Jie Tang</a><sup
+                  style="color:#6fbf73;">1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup style="color:#6fbf73;">1</sup>The Knowledge Engineering Group (KEG),
+                Tsinghua University,</span>
+              <span class="author-block"><sup style="color:#6fbf73;">2</sup>Zhipu AI,</span>
+              <span class="author-block"><sup style="color:#ed4b82">3</sup>California Institute of Technology</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2401.07950" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2401.07950" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/THUDM/SciGLM" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Model Link. -->
+                <span class="link-block">
+                  <a href="https://huggingface.co/zd21/SciGLM-6B"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <p style="font-size:18px">🤗</p>
+                    </span>
+                    <span>Model</span>
+                  </a>
+                </span>
+                <!-- Dataset Link. -->
+                <span class="link-block">
+                  <a href="https://drive.google.com/file/d/1UlvMEau9659BoBxbMG6sk-oKaiIIO-hJ/view"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fa fa-database"></i>
+                    </span>
+                    <span>Data</span>
+                  </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <section class="section">
+    <div class="container">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Large Language Models (LLMs) have shown promise in assisting scientific discovery.
+              However, such applications are currently limited by LLMs' deficiencies in understanding intricate
+              scientific concepts, deriving symbolic equations, and solving advanced numerical calculations.
+              To bridge these gaps, we introduce <strong>SciGLM</strong>, a suite of scientific language models able to
+              conduct college-level scientific reasoning.
+            </p>
+            <p>
+              Central to our approach is a novel self-reflective instruction annotation framework to address the data
+              scarcity challenge in the science domain.
+              This framework leverages existing LLMs to generate step-by-step reasoning for unlabelled scientific
+              questions, followed by a process of self-reflective critic-and-revise.
+              Applying this framework, we curated <strong><em>SciInstruct</em></strong>, a diverse and high-quality
+              dataset encompassing physics, chemistry, math, and formal proofs.
+            </p>
+            <p>
+              We fine-tuned the ChatGLM family of language models with <strong><em>SciInstruct</em></strong>, enhancing
+              their scientific and mathematical reasoning capabilities.
+              Remarkably, the <strong>SciGLM</strong> consistently improves both the base model (ChatGLM3-6B-Base) by
+              4.87% and larger-scale models (32B) by 2.67%, without sacrificing the language understanding capabilities
+              of the base model.
+              This makes <strong>SciGLM</strong> a suitable foundational model to facilitate diverse scientific
+              discovery tasks.
+              For the benefit of the wider research community, we release
+              <strong><em>SciInstruct</em></strong>, and <strong>SciGLM</strong>, alongside
+              a self-reflective framework and fine-tuning code
+              at <a href="https://github.com/THUDM/SciGLM">https://github.com/THUDM/SciGLM</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+      <div class="container">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Average Accuracy</em></strong></h2>
+            <div class="content has-text-justified">
+              <p style="text-align: center;">
+                <img class="center-block org-banner" src="static/images/models_sci.png" width="60%">
+              </p>
+              <p>
+                Figure 1: Average accuracy on CEval-Sci, SciEval, SciBench, MATH, and SAT-Math benchmarks of different
+                LLMs. Our <strong>SciGLM</strong> models fine-tuned from ChatGLM3 achieve consistent improvement for
+                different parameter sizes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-centered m-6">
+        <div class="column is-full has-text-centered content">
+          <h2 class="title is-3">Examples Generated with <strong>SciGLM</strong></h2>
+          <p>Some examples in SciBench that have been solved accurately with <strong>SciGLM</strong> (32B).
+            They show that after instruction-tuning, the <strong>SciGLM</strong> learns skills/behaviors to first
+            analyze the knowledge required for each problem, and then step-by-step solve the problem with correct
+            formula and calculations.
+          </p>
+          <div id="results-carousel" class="carousel results-carousel">
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/generated_examples/quan.png" alt="quan" width="100%" />
+                <p><strong>Quantum Chemistry</strong> problem
+                </p>
+              </div>
+            </div>
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/generated_examples/stat.png" alt="stat" width="100%" />
+                <p><strong>Statistics</strong> problem</p>
+              </div>
+            </div>
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/generated_examples/quan2.png" alt="quan2" width="100%" />
+                <p><strong>Quantum Chemistry</strong> problem</p>
+              </div>
+            </div>
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/generated_examples/stat3.png" alt="stat2" width="100%" />
+                <p><strong>Statistics</strong> problem</p>
+              </div>
+            </div>
+            <div class="box m-5">
+              <div class="content has-text-centered">
+                <img src="static/images/generated_examples/stat2.png" alt="stat3" width="100%" />
+                <p><strong>Statistics</strong> problem</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Our Dataset: <strong><em>SciInstruct</em></strong></h2>
+          <div class="content has-text-justified">
+            <a href="https://arxiv.org/abs/2401.07950" target="_blank" rel="external">
+              <img class="center-block org-banner" src="static/images/SciInstruct.png">
+            </a>
+            <p>
+              Figure 2: The pipeline of constructing <strong><em>SciInstruct</em></strong>. On the far left is a mix of
+              training
+              datasets.
+              The purpose of the annotation is to supplement chain-of-thought processes with reflective generation.
+              The goal of the filter is to train an instruction-quality classifier and only keep high-quality reasoning
+              traces as instructions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table></table>
+
+
+    <div class="columns is-centered m-6">
+      <div class="column is-full has-text-centered content">
+        <h2 class="title is-3">Examples in <strong><em>SciInstruct</em></strong></h2>
+        <!-- <p>One example for each <b>subject</b> collected with <strong><em>SciInstruct</em></strong></p> -->
+        <div id="results-carousel" class="carousel results-carousel">
+
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/sci_instruction_examples/math.png" alt="math" width="100%" />
+              <p>Math</p>
+            </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/sci_instruction_examples/physics.png" alt="physics" width="100%" />
+              <p>Physics</p>
+            </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/sci_instruction_examples/chemistry.png" alt="chemistry" width="100%" />
+              <p>Chemistry</p>
+            </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/sci_instruction_examples/formal.png" alt="formal" width="100%" />
+              <p>Formal Proofs (Lean)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Overall Scientific Results</em></strong></h2>
+          <div class="content has-text-justified">
+            <p style="text-align: center;">
+              <a href="https://arxiv.org/abs/2401.07950" target="_blank" rel="external">
+                <img class="center-block org-banner" src="static/images/Sci_Results.png" width="60%"
+                  style="display: inline-block;">
+              </a>
+            </p>
+            <p>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Overall Mathematical Results</em></strong></h2>
+          <div class="content has-text-justified">
+            <p style="text-align: center;">
+              <a href="https://arxiv.org/abs/2401.07950" target="_blank" rel="external">
+                <img class="center-block org-banner" src="static/images/Math_Results.png" width="60%"
+                  style="display: inline-block;">
+              </a>
+            </p>
+            <p>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-3 has-text-centered">Reference</h2>
+      <p>If you find our work helpful, please kindly cite our paper:</p>
+      <pre><code>@article{zhang2024sciglm,
+        title={Sciglm: Training scientific language models with self-reflective instruction annotation and tuning},
+        author={Zhang, Dan and Hu, Ziniu and Zhoubian, Sining and Du, Zhengxiao and Yang, Kaiyu and Wang, Zihan and Yue, Yisong and Dong, Yuxiao and Tang, Jie},
+        journal={arXiv preprint arXiv:2401.07950},
+        year={2024}
+      }</code></pre>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="./static/videos/nerfies_paper.pdf">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              This means you are free to borrow the <a href="https://github.com/nerfies/nerfies.github.io">source
+                code</a> of this website,
+              we just ask that you link back to this page in the footer.
+              Please remember to remove the analytics code included in the header of the website which
+              you do not want on your website.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
