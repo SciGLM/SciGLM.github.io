@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="SciInstruct: a Self-Reflective Instruction Annotated Dataset for Training Scientific Language Models">
+  <meta name="description"
+    content="SciInstruct: a Self-Reflective Instruction Annotated Dataset for Training Scientific Language Models">
   <meta name="keywords" content="self-reflective instruction, scientific reasoning, scientific language model">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SciInstruct: a Self-Reflective Instruction Annotated Dataset for Training Scientific Language Models</title>
@@ -88,7 +89,8 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">SciInstruct: a Self-Reflective Instruction Annotated Dataset for Training Scientific Language Models</h1>
+            <h1 class="title is-1 publication-title">SciInstruct: a Self-Reflective Instruction Annotated Dataset for
+              Training Scientific Language Models</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
                 <a href="https://zhangdan0602.github.io/">Dan Zhang</a><sup style="color:#6fbf73;">1,2</sup>,</span>
@@ -195,13 +197,25 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              Large Language Models (LLMs) have shown promise in assisting scientific discovery. However, such applications are currently limited by LLMs' deficiencies in understanding intricate scientific concepts, deriving symbolic equations, and solving advanced numerical calculations. To bridge these gaps, we introduce <strong><em>SciInstruct</em></strong>, a suite of scientific instructions for training scientific language models capable of college-level scientific reasoning. 
+              Large Language Models (LLMs) have shown promise in assisting scientific discovery. However, such
+              applications are currently limited by LLMs' deficiencies in understanding intricate scientific concepts,
+              deriving symbolic equations, and solving advanced numerical calculations. To bridge these gaps, we
+              introduce <strong><em>SciInstruct</em></strong>, a suite of scientific instructions for training
+              scientific language models capable of college-level scientific reasoning.
             </p>
             <p>
-              Central to our approach is a novel self-reflective instruction annotation framework to address the data scarcity challenge in the science domain. This framework leverages existing LLMs to generate step-by-step reasoning for unlabelled scientific questions, followed by a process of self-reflective critic-and-revise. Applying this framework, we curated a diverse and high-quality dataset encompassing physics, chemistry, math, and formal proofs.
-            </p> 
+              Central to our approach is a novel self-reflective instruction annotation framework to address the data
+              scarcity challenge in the science domain. This framework leverages existing LLMs to generate step-by-step
+              reasoning for unlabelled scientific questions, followed by a process of self-reflective critic-and-revise.
+              Applying this framework, we curated a diverse and high-quality dataset encompassing physics, chemistry,
+              math, and formal proofs.
+            </p>
             <p>
-              We analyze the curated <strong><em>SciInstruct</em></strong> from multiple interesting perspectives (e.g., domain, scale, source, question type, answer length, etc.). To verify the effectiveness of SciInstruct, we fine-tuned different language models with SciInstruct, i.e., ChatGLM3 (6B and 32B), Llama3-8b-Instruct, and Mistral-7B, enhancing their scientific and mathematical reasoning capabilities, without sacrificing the language understanding capabilities of the base model.
+              We analyze the curated <strong><em>SciInstruct</em></strong> from multiple interesting perspectives (e.g.,
+              domain, scale, source, question type, answer length, etc.). To verify the effectiveness of SciInstruct, we
+              fine-tuned different language models with SciInstruct, i.e., ChatGLM3 (6B and 32B), Llama3-8b-Instruct,
+              and Mistral-7B, enhancing their scientific and mathematical reasoning capabilities, without sacrificing
+              the language understanding capabilities of the base model.
             </p>
           </div>
         </div>
@@ -224,52 +238,57 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="columns is-centered m-6">
-        <div class="column is-full has-text-centered content">
-          <h2 class="title is-3">Examples Generated with <strong>SciGLM</strong></h2>
-          <p>Some examples in SciBench that have been solved accurately with <strong>SciGLM</strong> (32B).
-            They show that after instruction-tuning, the <strong>SciGLM</strong> learns skills/behaviors to first
-            analyze the knowledge required for each problem, and then step-by-step solve the problem with correct
-            formula and calculations.
-          </p>
-          <div id="results-carousel" class="carousel results-carousel">
-            <div class="box m-5">
-              <div class="content has-text-centered">
-                <img src="static/images/generated_examples/quan.png" alt="quan" width="100%" />
-                <p><strong>Quantum Chemistry</strong> problem
-                </p>
-              </div>
+  
+
+  <section>
+    <div class="columns is-centered m-6">
+      <div class="column is-full has-text-centered content">
+        <h2 class="title is-3">Examples Generated with <strong>SciGLM</strong></h2>
+        <p>Some examples in SciBench that have been solved accurately with <strong>SciGLM</strong> (32B).
+          They show that after instruction-tuning, the <strong>SciGLM</strong> learns skills/behaviors to first
+          analyze the knowledge required for each problem, and then step-by-step solve the problem with correct
+          formula and calculations.
+        </p>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/generated_examples/quan.png" alt="quan" width="100%" />
+              <p><strong>Quantum Chemistry</strong> problem
+              </p>
             </div>
-            <div class="box m-5">
-              <div class="content has-text-centered">
-                <img src="static/images/generated_examples/stat.png" alt="stat" width="100%" />
-                <p><strong>Statistics</strong> problem</p>
-              </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/generated_examples/stat.png" alt="stat" width="100%" />
+              <p><strong>Statistics</strong> problem</p>
             </div>
-            <div class="box m-5">
-              <div class="content has-text-centered">
-                <img src="static/images/generated_examples/quan2.png" alt="quan2" width="100%" />
-                <p><strong>Quantum Chemistry</strong> problem</p>
-              </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/generated_examples/quan2.png" alt="quan2" width="100%" />
+              <p><strong>Quantum Chemistry</strong> problem</p>
             </div>
-            <div class="box m-5">
-              <div class="content has-text-centered">
-                <img src="static/images/generated_examples/stat3.png" alt="stat2" width="100%" />
-                <p><strong>Statistics</strong> problem</p>
-              </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/generated_examples/stat3.png" alt="stat2" width="100%" />
+              <p><strong>Statistics</strong> problem</p>
             </div>
-            <div class="box m-5">
-              <div class="content has-text-centered">
-                <img src="static/images/generated_examples/stat2.png" alt="stat3" width="100%" />
-                <p><strong>Statistics</strong> problem</p>
-              </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/generated_examples/stat2.png" alt="stat3" width="100%" />
+              <p><strong>Statistics</strong> problem</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
 
 
 
